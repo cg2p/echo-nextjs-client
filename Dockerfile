@@ -13,7 +13,7 @@ COPY . /usr/src/app
 
 RUN npm run build
 
-ENV PORT=5000
-EXPOSE 5000
+ENV PORT=3000
+EXPOSE 3000
 
 CMD [ "npm", "run", "start" ]

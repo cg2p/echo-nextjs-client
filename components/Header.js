@@ -15,7 +15,7 @@ export default function Header() {
     <AppBar position="relative" color="default" elevation={0} className={classes.appBar}>
       <Toolbar className={classes.toolbar}>
         <Typography variant="h6" color="inherit" noWrap className={classes.toolbarTitle}>
-          <Link href="/">Reverse App
+          <Link href="/">Echo Reverse App
           </Link>
           
         </Typography>

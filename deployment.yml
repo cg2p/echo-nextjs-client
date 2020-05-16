@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: app
+  name: echo-nextjs-client
+  namespace: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+      - name: echo-nextjs-client-container
+        image: echo-nextjs-client-container-image
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+        env:
+          - name: K8SECRET
+            valueFrom:
+              secretKeyRef:
+                name: my-secret-url
+                key: my_secret_url
+        envFrom:
+          - configMapRef:
+              name: echo-nextjs-client-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: echo-nextjs-client
+  namespace: prod
+spec:
+  selector:
+    app: app
+  ports:
+  - protocol: TCP
+    port: 3000
+    targetPort: 3000
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: echo-nextjs-client-config
+  namespace: prod
+data:
+  TESTVAR: k8s Test Var
+  k8var: k8s boring var
+

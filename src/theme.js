@@ -20,3 +20,5 @@ const theme = createMuiTheme({
 });
 
 export default theme;
+
+//      main: '#556cd6',
