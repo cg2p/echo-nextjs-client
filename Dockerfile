@@ -1,10 +1,19 @@
-FROM mhart/alpine-node
+FROM node:10-alpine
 
-WORKDIR /app
-COPY . .
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-RUN yarn install
-RUN yarn build
+# Install app dependencies
+COPY package*.json /usr/src/app/
+RUN npm install
 
+# Bundle app source
+COPY . /usr/src/app
+
+RUN npm run build
+
+# ENV PORT=3000
 EXPOSE 3000
-CMD ["yarn", "start"]
+
+CMD [ "npm", "run", "start" ]
