@@ -68,8 +68,8 @@ class Reverse extends Component {
     const reverseChecked = this.state.reverseChecked;
     
     const url = process.env.ECHO_SERVICE_URL;
-    const echo_url = url + ECHO_SERVICE_POST_ECHO;
-    const reverse_url = url + ECHO_SERVICE_POST_REVERSE;
+    const echo_url = url + process.env.ECHO_SERVICE_POST_ECHO;
+    const reverse_url = url + process.env.ECHO_SERVICE_POST_REVERSE;
     
     console.log('echo_url is %s', echo_url);
     console.log('reverse_url is %s', reverse_url);
