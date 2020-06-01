@@ -15,8 +15,14 @@ import Layout from '../components/Layout';
 import { useStyles } from '../components/Styles';
 
 import getConfig from 'next/config'
-const { publicRuntimeConfig, serverRuntimeConfig } = getConfig();
 
+const { publicRuntimeConfig } = getConfig();
+const { 
+//  ECHO_SERVICE_GET_PING, 
+//  ECHO_SERVICE_GET_ECHOES,
+  ECHO_SERVICE_POST_ECHO,
+  ECHO_SERVICE_POST_REVERSE,
+} = publicRuntimeConfig;
 
 function useStylesHook(Component) {
   return function WrappedComponent(props) {
@@ -34,11 +40,6 @@ class Reverse extends Component {
       error: '',
       textOutput: '',
       reverseChecked: false,
-      myvar: publicRuntimeConfig.myvar,
-      mysecret: serverRuntimeConfig.mysecret,
-      TESTVAR: publicRuntimeConfig.TESTVAR,
-      k8secret: '',
-      k8var: '',
     };
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
     this.handleChoiceChange = this.handleChoiceChange.bind(this);
@@ -56,65 +57,71 @@ class Reverse extends Component {
     this.setState({ textInput: event.target.value })
   }
 
+  handleSetTextOutput (value) {
+    this.setState({ textOutput: value })
+  }
+
   async handleSubmit(event) {
     event.preventDefault();
 
-    var inputText = this.state.textInput;
-    var outputText;
+    const inputText = this.state.textInput;
+    const reverseChecked = this.state.reverseChecked;
+    
+    const url = process.env.ECHO_SERVICE_URL;
+    const echo_url = url + ECHO_SERVICE_POST_ECHO;
+    const reverse_url = url + ECHO_SERVICE_POST_REVERSE;
+    
+    console.log('echo_url is %s', echo_url);
+    console.log('reverse_url is %s', reverse_url);
 
-    if (this.state.reverseChecked) {
-      outputText = inputText.split("").reverse().join("");
-    } else {
-      outputText = inputText;
-    }
-    
-    console.log("myvar %s", this.state.myvar);
-    console.log("mysecret %s", this.state.mysecret);
-    
-    this.setState({textOutput: outputText });
+    // hard code for the moment
+    let userid = "333";
 
-    /*
-    const echo_url = 'http://' + echo_host + ':' + echo_port + '/' + echo_api;
-    const reverse_url = 'http://' + reverse_host + ':' + reverse_port + '/' + reverse_api;
-    
-    var myheaders = new Headers({
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    });
-    
+    async function getTextOutput(inputText, reverseChecked) {
+      var myheaders = new Headers({
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      });
+
+      try {
+        if (reverseChecked) {
+          var url = reverse_url;
+        } else {
+          var url = echo_url;
+        }
+  
+        let response = await fetch(url, {
+          method: 'POST',
+          headers: myheaders,
+          body: JSON.stringify({ uid: userid, inputText: inputText })
+        });
+  
+        if (response.ok) {
+          console.log("response ok");
+          let data = await response.json(); 
+          console.log("result %s", data.result.text);
+          return data.result.text;
+        } else {
+          console.log('echo service call failed.');
+          let error = new Error(response.statusText);
+          error.response = response;
+          throw error;        
+        }
+      } catch (error) {
+        console.error('Error thrown inside getTextOutput', error); 
+      }
+    };
+
     try {
-      if (this.state.echoChoice) {
-        var url = echo_url;
-      } else {
-        var url = reverse_url;
-      }
-      console.log('url is %s', url);
-      var inputText = this.state.textInput;
-    
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: myheaders,
-        body: JSON.stringify({ inputText })
-      })
-      if (response.ok) {
-        const { outputText } = await response.json()
-        console.log('outputText is %s', outputText);
-        this.setState({textOutput: outputText });
-      } else {
-        console.log('call failed.')
-        let error = new Error(response.statusText)
-        error.response = response
-        throw error
-      }
+      getTextOutput(inputText, reverseChecked).then(value => this.handleSetTextOutput(value));
     } catch (error) {
       console.error(
-        'You have an error in your code or there are Network issues.',
-        inputText, 
+        'Error caught outside.',
         error
-      )
-      this.setState({ error: error.message })
-    }
-    */
+      );
+      this.setState({ error: error.message });
+    }; 
+
   }
 
   render() {
@@ -160,21 +167,6 @@ class Reverse extends Component {
               <Grid item xs={12}>
                 <Paper className={classes.paper}>
                   {this.state.textOutput }
-                </Paper>
-                <Paper className={classes.paper}>
-                  myvar {this.state.myvar }
-                </Paper>
-                <Paper className={classes.paper}>
-                  mysecret {this.state.mysecret }
-                </Paper>
-                <Paper className={classes.paper}>
-                  TESTVAR {this.state.TESTVAR }
-                </Paper>
-                <Paper className={classes.paper}>
-                  k8var {this.state.k8var }
-                </Paper>
-                <Paper className={classes.paper}>
-                  k8secret {this.state.k8secret }
                 </Paper>
               </Grid>
           </Grid>

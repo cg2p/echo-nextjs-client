@@ -4,7 +4,21 @@ require('dotenv').config();
 const env = process.env.NODE_ENV; // 'dev' or 'test'
 
 module.exports = {
-    serverRuntimeConfig: { // Will only be available on the server side
+    serverRuntimeConfig: {
+    },
+  
+    publicRuntimeConfig: {
+//      ECHO_SERVICE_HOST: process.env.ECHO_SERVICE_HOST,
+//      ECHO_SERVICE_PORT: process.env.ECHO_SERVICE_PORT,
+        ECHO_SERVICE_GET_PING: process.env.ECHO_SERVICE_GET_PING,
+        ECHO_SERVICE_GET_ECHOES: process.env.ECHO_SERVICE_GET_ECHOES,
+        ECHO_SERVICE_POST_ECHO: process.env.ECHO_SERVICE_POST_ECHO,
+        ECHO_SERVICE_POST_REVERSE: process.env.ECHO_SERVICE_POST_REVERSE,
+    }
+  
+
+
+/*    serverRuntimeConfig: { // Will only be available on the server side
         mysecret: 'the secret',
         k8secret: process.env.K8SECRET
     },
@@ -15,4 +29,5 @@ module.exports = {
         k8var: process.env.k8var,
         version: process.env.VERSION,
     }
+    */
 };
