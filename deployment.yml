@@ -48,7 +48,7 @@ spec:
   - protocol: TCP
     port: 3000
     targetPort: 3000
-  type: NodePort
+  type: LoadBalancer
 ---
 apiVersion: v1
 kind: ConfigMap

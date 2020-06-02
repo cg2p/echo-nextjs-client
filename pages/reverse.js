@@ -24,6 +24,7 @@ const {
   ECHO_SERVICE_POST_REVERSE,
 } = publicRuntimeConfig;
 */
+
 function useStylesHook(Component) {
   return function WrappedComponent(props) {
     const classes = useStyles();
