@@ -16,14 +16,14 @@ import { useStyles } from '../components/Styles';
 
 import getConfig from 'next/config'
 
-const { publicRuntimeConfig } = getConfig();
+/*const { publicRuntimeConfig } = getConfig();
 const { 
 //  ECHO_SERVICE_GET_PING, 
 //  ECHO_SERVICE_GET_ECHOES,
   ECHO_SERVICE_POST_ECHO,
   ECHO_SERVICE_POST_REVERSE,
 } = publicRuntimeConfig;
-
+*/
 function useStylesHook(Component) {
   return function WrappedComponent(props) {
     const classes = useStyles();
