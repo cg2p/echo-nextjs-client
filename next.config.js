@@ -1,19 +1,19 @@
 // next.config.js
 require('dotenv').config();
 
-const env = process.env.NODE_ENV; // 'dev' or 'test'
+//const env = process.env.NODE_ENV; // 'dev' or 'test'
 
 module.exports = {
     serverRuntimeConfig: {
-    },
+        ECHO_SERVICE_URL: process.env.ECHO_SERVICE_URL,
+        ECHO_SERVICE_POST_ECHO: process.env.ECHO_SERVICE_POST_ECHO,
+        ECHO_SERVICE_POST_REVERSE: process.env.ECHO_SERVICE_POST_REVERSE,
+     },
   
     publicRuntimeConfig: {
 //      ECHO_SERVICE_HOST: process.env.ECHO_SERVICE_HOST,
 //      ECHO_SERVICE_PORT: process.env.ECHO_SERVICE_PORT,
-        ECHO_SERVICE_GET_PING: process.env.ECHO_SERVICE_GET_PING,
-        ECHO_SERVICE_GET_ECHOES: process.env.ECHO_SERVICE_GET_ECHOES,
-        ECHO_SERVICE_POST_ECHO: process.env.ECHO_SERVICE_POST_ECHO,
-        ECHO_SERVICE_POST_REVERSE: process.env.ECHO_SERVICE_POST_REVERSE,
+//        ECHO_SERVICE_GET_PING: process.env.ECHO_SERVICE_GET_PING,
     }
   
 

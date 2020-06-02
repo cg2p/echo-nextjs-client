@@ -10,7 +10,7 @@ import Link from '../components/Link';
 import { useStyles } from '../components/Styles';
 
 
-export default function App() {
+function Index() {
   const classes = useStyles();
 
   return (
@@ -41,3 +41,5 @@ export default function App() {
     </React.Fragment>
   );
 }
+
+export default Index;

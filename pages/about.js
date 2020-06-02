@@ -15,7 +15,7 @@ import Layout from '../components/Layout';
 import Link from '../components/Link';
 import { useStyles } from '../components/Styles';
 
-export default function About() {
+function About() {
   const classes = useStyles();
 
   return (
@@ -46,3 +46,5 @@ export default function About() {
     </Layout>
   );
 }
+
+export default About;

@@ -7,7 +7,7 @@ import Link from '../components/Link';
 
 import { useStyles } from '../components/Styles';
 
-export default function Header() {
+function Header() {
   const classes = useStyles();
 
   return (
@@ -35,3 +35,5 @@ export default function Header() {
     </React.Fragment>
   );
 }  
+
+export default Header;

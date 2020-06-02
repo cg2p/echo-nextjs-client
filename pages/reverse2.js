@@ -12,34 +12,17 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 import Layout from '../components/Layout';
-
 import { useStyles } from '../components/Styles';
 
 import getConfig from 'next/config'
 
-const { serverRuntimeConfig } = getConfig();
+/*const { publicRuntimeConfig } = getConfig();
 const { 
-  ECHO_SERVICE_URL,
+//  ECHO_SERVICE_GET_PING, 
+//  ECHO_SERVICE_GET_ECHOES,
   ECHO_SERVICE_POST_ECHO,
   ECHO_SERVICE_POST_REVERSE,
-} = serverRuntimeConfig;
-
-export async function getServerSideProps() {
-  const url = serverRuntimeConfig.ECHO_SERVICE_URL;
-
-  const data = {
-    echo_url: url + serverRuntimeConfig.ECHO_SERVICE_POST_ECHO,
-    reverse_url: url + serverRuntimeConfig.ECHO_SERVICE_POST_REVERSE,
-  };
-  
-  return {
-    props: { data }, // will be passed to the page component as props
-  }
-}
-
-
-/*
-i
+} = publicRuntimeConfig;
 */
 
 function useStylesHook(Component) {
@@ -62,10 +45,6 @@ class Reverse extends Component {
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
     this.handleChoiceChange = this.handleChoiceChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
-    this.echo_url = props.data.echo_url;
-    this.reverse_url = props.data.reverse_url;
-
   }
 
   handleChoiceChange (event) {
@@ -88,24 +67,31 @@ class Reverse extends Component {
 
     const inputText = this.state.textInput;
     const reverseChecked = this.state.reverseChecked;
-    const echo_url = this.echo_url;
-    const reverse_url = this.reverse_url;
     
-    console.log('echo_url is %s', this.echo_url);
-    console.log('reverse_url is %s', this.reverse_url);
+    const url = process.env.ECHO_SERVICE_URL;
+    const echo_url = url + process.env.ECHO_SERVICE_POST_ECHO;
+    const reverse_url = url + process.env.ECHO_SERVICE_POST_REVERSE;
+    
+    console.log('echo_url is %s', echo_url);
+    console.log('reverse_url is %s', reverse_url);
 
     // hard code for the moment
-    const userid = "333";
- 
-    async function getTextOutput() {
+    let userid = "333";
+
+    async function getTextOutput(inputText, reverseChecked) {
       var myheaders = new Headers({
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
       });
 
       try {
-
-        let response = await fetch( reverseChecked ? reverse_url : echo_url, {
+        if (reverseChecked) {
+          var url = reverse_url;
+        } else {
+          var url = echo_url;
+        }
+  
+        let response = await fetch(url, {
           method: 'POST',
           headers: myheaders,
           body: JSON.stringify({ uid: userid, inputText: inputText })
@@ -128,7 +114,7 @@ class Reverse extends Component {
     };
 
     try {
-      getTextOutput().then(value => this.handleSetTextOutput(value));
+      getTextOutput(inputText, reverseChecked).then(value => this.handleSetTextOutput(value));
     } catch (error) {
       console.error(
         'Error caught outside.',

@@ -27,7 +27,7 @@ const footers = [
   ];
 
 
-export default function Footer() {
+function Footer() {
   const classes = useStyles();
 
   return (
@@ -60,3 +60,5 @@ export default function Footer() {
     </React.Fragment>
   );
 }
+
+export default Footer;
