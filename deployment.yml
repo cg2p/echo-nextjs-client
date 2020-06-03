@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: echo-nextjs-client
   namespace: swp-ns
-  labels: 
+  labels:
     app: echo-nextjs-app
 spec:
   replicas: 1
