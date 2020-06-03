@@ -4,16 +4,16 @@ metadata:
   name: echo-nextjs-client
   namespace: swp-ns
   labels: 
-    app: app
+    app: echo-nextjs-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: app
+      app: echo-nextjs-app
   template:
     metadata:
       labels:
-        app: app
+        app: echo-nextjs-app
     spec:
       containers:
       - name: echo-nextjs-client-container
@@ -37,7 +37,7 @@ metadata:
   namespace: swp-ns
 spec:
   selector:
-    app: app
+    app: echo-nextjs-app
   ports:
   - protocol: TCP
     port: 3000
